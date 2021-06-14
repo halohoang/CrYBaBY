@@ -16,17 +16,17 @@ MonoBehaviour:
   speedMultiplyer: 2
   frames:
   - Sprite: {fileID: 8793639957104055765, guid: ad1287f7485d26b498cef627f88ec83b, type: 3}
-    Duration: 0.25
+    Duration: 0.15
   - Sprite: {fileID: 6084859605308855041, guid: ad1287f7485d26b498cef627f88ec83b, type: 3}
-    Duration: 0.25
+    Duration: 0.15
   - Sprite: {fileID: 8603369663158992956, guid: ad1287f7485d26b498cef627f88ec83b, type: 3}
-    Duration: 0.25
+    Duration: 0.15
   - Sprite: {fileID: -5906421172241655209, guid: ad1287f7485d26b498cef627f88ec83b, type: 3}
-    Duration: 0.25
+    Duration: 0.15
   - Sprite: {fileID: 5704420531145803721, guid: ad1287f7485d26b498cef627f88ec83b, type: 3}
-    Duration: 0.25
+    Duration: 0.15
   - Sprite: {fileID: -148617073940163930, guid: ad1287f7485d26b498cef627f88ec83b, type: 3}
-    Duration: 0.25
+    Duration: 0.15
   fileToLoadFrom: {fileID: 2800000, guid: ad1287f7485d26b498cef627f88ec83b, type: 3}
-  defaultTime: 0.25
+  defaultTime: 0.15
   loadFromLastToFirst: 0
