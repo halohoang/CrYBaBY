@@ -16,25 +16,15 @@ public class Movement : MonoBehaviour
 
     private bool _isJumpPressed;
     private bool _isGrounded;
-    private string currentAnimation;
-    private bool _isAttackedPressed;
-    private bool isAttacking;
+
 
     [SerializeField]
     private float _attackDelay = 0.3f;
-
-    //Animation States //Same as Player in Animator
-    //const string PLAYER_IDLE = "Idle";
-    //const string PLAYER_RUN = "Run";
-    //const string PLAYER_JUMP = "Jump";
-    //const string PLAYER_SHOOT = "Shoot";
-    //const string PLAYER_MELEE = "Melee";
 
     [SerializeField] private SpriteAnimation _anIdle;
     [SerializeField] private SpriteAnimation _anRun;
     [SerializeField] private SpriteAnimation _anJump;
     [SerializeField] private SpriteAnimation _anShoot;
-    [SerializeField] private SpriteAnimation _anMelee;
 
     //Functions
 
@@ -59,11 +49,7 @@ public class Movement : MonoBehaviour
             _isJumpPressed = true;
         }
 
-        //Check Attack
-        if (Input.GetMouseButtonDown(1))
-        {
-            _isAttackedPressed = true;
-        }
+
 
     }
 
@@ -127,14 +113,5 @@ public class Movement : MonoBehaviour
 
         //assign the new velocity to the rigidbody
         _rb2d.velocity = vel;
-
     }
-
-    //void ChangeAnimationState(string newAnimation)
-    //{
-    //    if (currentAnimation == newAnimation) return;
-
-    //    _animator.Play(newAnimation);
-    //    currentAnimation = newAnimation;
-    //}
 }

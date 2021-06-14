@@ -16,21 +16,21 @@ MonoBehaviour:
   speedMultiplyer: 2
   frames:
   - Sprite: {fileID: -1882347247711912902, guid: 5c4b90762b249db48bc3b56d0a0cad3a, type: 3}
-    Duration: 0.1
+    Duration: 0.25
   - Sprite: {fileID: 7439426567979852956, guid: 5c4b90762b249db48bc3b56d0a0cad3a, type: 3}
-    Duration: 0.1
+    Duration: 0.25
   - Sprite: {fileID: -2673560216460186399, guid: 5c4b90762b249db48bc3b56d0a0cad3a, type: 3}
-    Duration: 0.1
+    Duration: 0.25
   - Sprite: {fileID: -5822559823783948592, guid: 5c4b90762b249db48bc3b56d0a0cad3a, type: 3}
-    Duration: 0.1
+    Duration: 0.25
   - Sprite: {fileID: -4997308686002322044, guid: 5c4b90762b249db48bc3b56d0a0cad3a, type: 3}
-    Duration: 0.1
+    Duration: 0.25
   - Sprite: {fileID: -7808277857516635856, guid: 5c4b90762b249db48bc3b56d0a0cad3a, type: 3}
-    Duration: 0.1
+    Duration: 0.25
   - Sprite: {fileID: 2102408166121253023, guid: 5c4b90762b249db48bc3b56d0a0cad3a, type: 3}
-    Duration: 0.1
+    Duration: 0.25
   - Sprite: {fileID: -828024806730890176, guid: 5c4b90762b249db48bc3b56d0a0cad3a, type: 3}
-    Duration: 0.1
+    Duration: 0.25
   fileToLoadFrom: {fileID: 2800000, guid: 5c4b90762b249db48bc3b56d0a0cad3a, type: 3}
-  defaultTime: 0.1
+  defaultTime: 0.25
   loadFromLastToFirst: 0

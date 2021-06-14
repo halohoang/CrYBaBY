@@ -61,6 +61,7 @@
     <Compile Include="Assets\Scripts\SpriteAnimator\ImageSpriteAnimator.cs" />
     <Compile Include="Assets\Scripts\SpriteAnimator\PassiveSpriteAnimator.cs" />
     <Compile Include="Assets\Scripts\SpriteAnimator\SpriteAnimation.cs" />
+    <Compile Include="Assets\Scripts\Player\Combat\Shoot.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">
