@@ -8,7 +8,9 @@ public class Shoot : MonoBehaviour
     private SpriteAnimator _spriteAnimator;
     private bool _isAttackedPressed;
     private bool isAttacking;
-    [SerializeField] private SpriteAnimation _anMelee;
+
+    [SerializeField] private AnimationManager _animationManager;
+
 
     //functions
     private void Start()
@@ -18,16 +20,14 @@ public class Shoot : MonoBehaviour
     private void Update()
     {
         //Check Attack
-        if (Input.GetKeyDown(KeyCode.L))
+        if (Input.GetMouseButtonDown(0))
         {
-            PlayAnimation(_anMelee);
+            //PlayAnimation(_anMelee);
             _isAttackedPressed = true;
+            _animationManager.Play(AnimationType.Melee);
+            
         }
     }
-    private void PlayAnimation(SpriteAnimation spriteAnimation, bool resetsame = false)
-    {
-        _spriteAnimator.Play(spriteAnimation, resetsame);
 
-    }
 }
 

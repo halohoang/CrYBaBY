@@ -21,10 +21,8 @@ public class Movement : MonoBehaviour
     [SerializeField]
     private float _attackDelay = 0.3f;
 
-    [SerializeField] private SpriteAnimation _anIdle;
-    [SerializeField] private SpriteAnimation _anRun;
-    [SerializeField] private SpriteAnimation _anJump;
-    [SerializeField] private SpriteAnimation _anShoot;
+    [SerializeField] private AnimationManager _animationManager;
+
 
     //Functions
 
@@ -47,20 +45,10 @@ public class Movement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             _isJumpPressed = true;
+            
         }
-
-
-
     }
 
-    private void PlayAnimation(SpriteAnimation spriteAnimation, bool resetsame = false)
-    {
-
-
-        _spriteAnimator.Play(spriteAnimation, resetsame);
-
-
-    }
     private void FixedUpdate() //Physic movement
     {
         //Ground Check
@@ -83,28 +71,30 @@ public class Movement : MonoBehaviour
         {
             vel.x = -_moveSpeed;
             transform.localScale = new Vector2(-5, 5);
-            PlayAnimation(_anRun);
+            _animationManager.Play(AnimationType.Run);
+
 
         }
         else if (_xAxis > 0)
         {
             vel.x = _moveSpeed;
             transform.localScale = new Vector2(5, 5);
-            PlayAnimation(_anRun);
+            _animationManager.Play(AnimationType.Run);
+
 
         }
         else
         {
             vel.x = 0;
-            //ChangeAnimationState(PLAYER_IDLE);
-            PlayAnimation(_anIdle);
+            _animationManager.Play(AnimationType.Idle);
+
 
         }
 
         //Jump
         if (_isJumpPressed && _isGrounded)
         {
-            PlayAnimation(_anJump);
+            _animationManager.Play(AnimationType.Jump);
 
             _rb2d.AddForce(new Vector2(0, _jumpForce));
             _isJumpPressed = false;
