@@ -330,6 +330,7 @@ GameObject:
   - component: {fileID: 941615780}
   - component: {fileID: 941615781}
   - component: {fileID: 941615783}
+  - component: {fileID: 941615784}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -443,10 +444,7 @@ MonoBehaviour:
   _moveSpeed: 5
   _jumpForce: 300
   _attackDelay: 0.3
-  _anIdle: {fileID: 11400000, guid: 95d83b09959c0364fb5e4fb63d5632ae, type: 2}
-  _anRun: {fileID: 11400000, guid: 6935241ac0260144cb5ba85ec8bdcd5f, type: 2}
-  _anJump: {fileID: 11400000, guid: 3c4d145b81f922048ace1695c8a27dce, type: 2}
-  _anShoot: {fileID: 11400000, guid: eed78f677f735d54ab74f7a703e457b6, type: 2}
+  _animationManager: {fileID: 941615784}
 --- !u!114 &941615781
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -494,4 +492,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0946c86a4dcccef48baa13f351c9d3c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _anMelee: {fileID: 11400000, guid: eed78f677f735d54ab74f7a703e457b6, type: 2}
+  _animationManager: {fileID: 941615784}
+--- !u!114 &941615784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 941615776}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c549af2059194d442a4ad8535174c066, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _anIdle: {fileID: 11400000, guid: 95d83b09959c0364fb5e4fb63d5632ae, type: 2}
+  _anRun: {fileID: 11400000, guid: 6935241ac0260144cb5ba85ec8bdcd5f, type: 2}
+  _anJump: {fileID: 11400000, guid: 3c4d145b81f922048ace1695c8a27dce, type: 2}
+  _anMelee: {fileID: 11400000, guid: cf0af0c4c9b68b245b5b1f33a39603f2, type: 2}
