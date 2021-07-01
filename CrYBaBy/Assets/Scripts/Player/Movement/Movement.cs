@@ -13,18 +13,22 @@ public class Movement : MonoBehaviour
     private float _xAxis;
     private float _yAxis;
     private Rigidbody2D _rb2d;
+    bool _faceRight = true;
 
     private bool _isJumpPressed;
     private bool _isGrounded;
 
 
-    [SerializeField]
-    private float _attackDelay = 0.3f;
-
     [SerializeField] private AnimationManager _animationManager;
 
 
     //Functions
+
+    //void SpritesFaceMousePosition()
+    //{
+
+
+    //}
 
     void Start()
     {
@@ -36,8 +40,6 @@ public class Movement : MonoBehaviour
 
     void Update()
     {
-        //PlayerInput 
-
         //Movement left and right 
         _xAxis = Input.GetAxisRaw("Horizontal");
 
@@ -45,7 +47,19 @@ public class Movement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space))
         {
             _isJumpPressed = true;
-            
+
+        }
+        //Check Left and Right
+        var delta = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+        if (delta.x >= 0 && !_faceRight) // Face right
+        {
+            transform.localScale = new Vector3(5, 5, 5); 
+            _faceRight = true;
+        }
+        if (delta.x < 0 && _faceRight) // Face left
+        {
+            transform.localScale = new Vector3(-5, 5, 5);
+            _faceRight = false;
         }
     }
 
@@ -70,7 +84,6 @@ public class Movement : MonoBehaviour
         if (_xAxis < 0) //Flip the sprites reverse
         {
             vel.x = -_moveSpeed;
-            transform.localScale = new Vector2(-5, 5);
             _animationManager.Play(AnimationType.Run);
 
 
@@ -78,7 +91,6 @@ public class Movement : MonoBehaviour
         else if (_xAxis > 0)
         {
             vel.x = _moveSpeed;
-            transform.localScale = new Vector2(5, 5);
             _animationManager.Play(AnimationType.Run);
 
 
@@ -87,8 +99,6 @@ public class Movement : MonoBehaviour
         {
             vel.x = 0;
             _animationManager.Play(AnimationType.Idle);
-
-
         }
 
         //Jump
