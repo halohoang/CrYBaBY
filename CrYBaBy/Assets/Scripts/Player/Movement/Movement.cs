@@ -90,7 +90,7 @@ public class Movement : MonoBehaviour
 
         //Jump
         if (Input.GetKeyDown(KeyCode.Space)) CheckJump();
-        
+
         //Check Left and Right
         var delta = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
         if (delta.x >= 0 && !_faceRight) // Face right
@@ -119,6 +119,12 @@ public class Movement : MonoBehaviour
 
     private void FixedUpdate() //Physic movement
     {
+        GroundCheck();
+        MoveHorizontal();
+
+    }
+    void GroundCheck()
+    {
         //Ground Check
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 1f, _groundMask);
         if (hit.collider != null)
@@ -130,17 +136,15 @@ public class Movement : MonoBehaviour
         {
             _isGrounded = false;
         }
-
-        Vector2 vel = new Vector2(0, _rb2d.velocity.y);
-
+    }
+    void MoveHorizontal()
+    {
         //Move horizontal
-
-        if (_xAxis < 0) //Flip the sprites reverse
+        Vector2 vel = new Vector2(0, _rb2d.velocity.y);
+        if (_xAxis < 0)
         {
             vel.x = -_moveSpeed;
             _animationManager.Play(AnimationType.Run);
-
-
         }
         else if (_xAxis > 0)
         {
@@ -154,9 +158,12 @@ public class Movement : MonoBehaviour
             vel.x = 0;
             _animationManager.Play(AnimationType.Idle);
         }
-
         //assign the new velocity to the rigidbody
         _rb2d.velocity = vel;
+    }
+    void CheckJump()
+    {
+        if (_isGrounded == true) Jump();
     }
     void Jump()
     {
@@ -165,9 +172,5 @@ public class Movement : MonoBehaviour
         _rb2d.AddForce(new Vector2(0, _jumpForce));
     }
 
-    void CheckJump()
-    {
-        if (_isGrounded == true) Jump();
-    }
 
 }
