@@ -4,31 +4,41 @@ using UnityEngine;
 
 public class Movement : MonoBehaviour
 {
-    //Variables
+    // ------ Variables ------ //
+
+    //Movement
     [SerializeField] private float _moveSpeed = 5f;
     [SerializeField] private float _jumpForce;
-    private int _groundMask;
 
+    //Dash abilities
+    bool _isDashing;
+    [SerializeField] private float _dashTime;
+    [SerializeField] private float _dashSpeed;
+    [SerializeField] private float _distanceBetweenImages;
+    [SerializeField] private float _dashCoolDown; //Dash Cool down
+    private float _dashTimeLeft;
+    private float _lastImageXPosition;
+    private float _lastDash = -100f; //LastTime you dash
+
+    //Landed or not
+    private int _groundMask;
+    private bool _isJumpPressed;
+    private bool _isGrounded;
+
+    //Animation
     private SpriteAnimator _spriteAnimator;
     private float _xAxis;
     private float _yAxis;
     private Rigidbody2D _rb2d;
     bool _faceRight = true;
 
-    private bool _isJumpPressed;
-    private bool _isGrounded;
 
 
     [SerializeField] private AnimationManager _animationManager;
 
 
-    //Functions
+    // ------ Functions ------ //
 
-    //void SpritesFaceMousePosition()
-    //{
-
-
-    //}
 
     void Start()
     {
@@ -36,6 +46,39 @@ public class Movement : MonoBehaviour
         _spriteAnimator = GetComponent<SpriteAnimator>();
         //_animator = GetComponent<Animator>();
         _groundMask = 1 << LayerMask.NameToLayer("Ground");
+    }
+
+    //CheckDash
+    private void CheckDash()
+    {
+        if (_isDashing)
+        {
+            if (_dashTimeLeft > 0)
+            {
+                _rb2d.velocity = new Vector2(_dashSpeed, _rb2d.velocity.y);
+                _dashTimeLeft -= Time.deltaTime;
+                if (Mathf.Abs(transform.position.x - _lastImageXPosition) > _distanceBetweenImages)
+                {
+                    PlayerAfterImagePool.Instance.GetFromPool();
+                    _lastImageXPosition = transform.position.x;
+                }
+            }
+            if (_dashTimeLeft <= 0)
+            {
+                _isDashing = false;
+
+            }
+        }
+    }
+    //Dash Function
+    private void AttemptDash()
+    {
+        _isDashing = true;
+        _dashTimeLeft = _dashTime;
+        _lastDash = Time.time;
+
+        PlayerAfterImagePool.Instance.GetFromPool();
+        _lastImageXPosition = transform.position.x;
     }
 
     void Update()
@@ -53,7 +96,7 @@ public class Movement : MonoBehaviour
         var delta = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
         if (delta.x >= 0 && !_faceRight) // Face right
         {
-            transform.localScale = new Vector3(5, 5, 5); 
+            transform.localScale = new Vector3(5, 5, 5);
             _faceRight = true;
         }
         if (delta.x < 0 && _faceRight) // Face left
@@ -61,6 +104,18 @@ public class Movement : MonoBehaviour
             transform.localScale = new Vector3(-5, 5, 5);
             _faceRight = false;
         }
+
+        //Dash
+        CheckDash();
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            Debug.Log("Dash");
+            if (Time.time >= (_lastDash + _dashCoolDown))
+            {
+                AttemptDash();
+            }
+        }
+
     }
 
     private void FixedUpdate() //Physic movement
@@ -108,7 +163,6 @@ public class Movement : MonoBehaviour
 
             _rb2d.AddForce(new Vector2(0, _jumpForce));
             _isJumpPressed = false;
-            Debug.Log("jump");
         }
 
         //assign the new velocity to the rigidbody

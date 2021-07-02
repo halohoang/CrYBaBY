@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Shoot : MonoBehaviour
 {
-    //variables
+    // ------ Variables ------ //
+
     private SpriteAnimator _spriteAnimator;
     private bool _isAttackedPressed;
     private bool isAttacking;
@@ -12,7 +13,8 @@ public class Shoot : MonoBehaviour
     [SerializeField] private AnimationManager _animationManager;
 
 
-    //functions
+    // ------ Functions ------ //
+
     private void Start()
     {
         _spriteAnimator = GetComponent<SpriteAnimator>();

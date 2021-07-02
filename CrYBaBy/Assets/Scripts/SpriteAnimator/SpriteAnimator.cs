@@ -6,6 +6,7 @@ using UnityEngine.Events;
 
 public class SpriteAnimator : MonoBehaviour
 {
+    // ------ Variables ------ //
 
     [SerializeField] SpriteAnimation startingAnimation;
 
@@ -19,6 +20,9 @@ public class SpriteAnimator : MonoBehaviour
     public SpriteRenderer Renderer { get => renderer; }
 
     public SpriteAnimation OrginalAnimation { get => basicSA.OriginalAnimation; }
+
+
+    // ------ Functions ------ //
     private void Start()
     {
 

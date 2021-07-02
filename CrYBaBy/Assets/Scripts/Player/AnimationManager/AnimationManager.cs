@@ -4,24 +4,22 @@ using UnityEngine;
 
 public class AnimationManager : MonoBehaviour
 {
+
+    // ------ Variables ------ //
+
     private SpriteAnimator _spriteAnimator;
-    void Start()
-    {
-        _spriteAnimator = GetComponent<SpriteAnimator>();
-    }
-
-
-
     [SerializeField] private SpriteAnimation _anIdle;
     [SerializeField] private SpriteAnimation _anRun;
     [SerializeField] private SpriteAnimation _anJump;
     [SerializeField] private SpriteAnimation _anMelee;
 
 
+    // ------ Functions ------ //
+
     public void Play(AnimationType animationType)
     {
         if (_spriteAnimator.OrginalAnimation == _anMelee)
-        {   
+        {
             return;
         }
         if (animationType == AnimationType.Idle)
@@ -44,6 +42,10 @@ public class AnimationManager : MonoBehaviour
             _spriteAnimator.Play(_anMelee, false);
 
         }
+    }
+    void Start()
+    {
+        _spriteAnimator = GetComponent<SpriteAnimator>();
     }
 }
 public enum AnimationType
