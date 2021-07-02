@@ -9,16 +9,18 @@ public class Movement : MonoBehaviour
     //Movement
     [SerializeField] private float _moveSpeed = 5f;
     [SerializeField] private float _jumpForce;
+    private int _amountJumpedLeft;
+    private bool _canJump;
 
-    //Dash abilities
-    bool _isDashing;
-    [SerializeField] private float _dashTime;
-    [SerializeField] private float _dashSpeed;
-    [SerializeField] private float _distanceBetweenImages;
-    [SerializeField] private float _dashCoolDown; //Dash Cool down
-    private float _dashTimeLeft;
-    private float _lastImageXPosition;
-    private float _lastDash = -100f; //LastTime you dash
+    ////Dash abilities
+    //bool _isDashing;
+    //[SerializeField] private float _dashTime;
+    //[SerializeField] private float _dashSpeed;
+    //[SerializeField] private float _distanceBetweenImages;
+    //[SerializeField] private float _dashCoolDown; //Dash Cool down
+    //private float _dashTimeLeft;
+    //private float _lastImageXPosition;
+    //private float _lastDash = -100f; //LastTime you dash
 
     //Landed or not
     private int _groundMask;
@@ -49,49 +51,46 @@ public class Movement : MonoBehaviour
     }
 
     //CheckDash
-    private void CheckDash()
-    {
-        if (_isDashing)
-        {
-            if (_dashTimeLeft > 0)
-            {
-                _rb2d.velocity = new Vector2(_dashSpeed, _rb2d.velocity.y);
-                _dashTimeLeft -= Time.deltaTime;
-                if (Mathf.Abs(transform.position.x - _lastImageXPosition) > _distanceBetweenImages)
-                {
-                    PlayerAfterImagePool.Instance.GetFromPool();
-                    _lastImageXPosition = transform.position.x;
-                }
-            }
-            if (_dashTimeLeft <= 0)
-            {
-                _isDashing = false;
+    //private void CheckDash()
+    //{
+    //    if (_isDashing)
+    //    {
+    //        if (_dashTimeLeft > 0)
+    //        {
+    //            _rb2d.velocity = new Vector2(_dashSpeed, _rb2d.velocity.y);
+    //            _dashTimeLeft -= Time.deltaTime;
+    //            if (Mathf.Abs(transform.position.x - _lastImageXPosition) > _distanceBetweenImages)
+    //            {
+    //                PlayerAfterImagePool.Instance.GetFromPool();
+    //                _lastImageXPosition = transform.position.x;
+    //            }
+    //        }
+    //        if (_dashTimeLeft <= 0)
+    //        {
+    //            _isDashing = false;
 
-            }
-        }
-    }
+    //        }
+    //    }
+    //}
     //Dash Function
-    private void AttemptDash()
-    {
-        _isDashing = true;
-        _dashTimeLeft = _dashTime;
-        _lastDash = Time.time;
+    //private void AttemptDash()
+    //{
+    //    _isDashing = true;
+    //    _dashTimeLeft = _dashTime;
+    //    _lastDash = Time.time;
 
-        PlayerAfterImagePool.Instance.GetFromPool();
-        _lastImageXPosition = transform.position.x;
-    }
+    //    PlayerAfterImagePool.Instance.GetFromPool();
+    //    _lastImageXPosition = transform.position.x;
+    //}
 
     void Update()
     {
         //Movement left and right 
         _xAxis = Input.GetAxisRaw("Horizontal");
 
-        //Check Jump
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            _isJumpPressed = true;
-
-        }
+        //Jump
+        if (Input.GetKeyDown(KeyCode.Space)) CheckJump();
+        
         //Check Left and Right
         var delta = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
         if (delta.x >= 0 && !_faceRight) // Face right
@@ -106,15 +105,15 @@ public class Movement : MonoBehaviour
         }
 
         //Dash
-        CheckDash();
-        if (Input.GetKeyDown(KeyCode.LeftShift))
-        {
-            Debug.Log("Dash");
-            if (Time.time >= (_lastDash + _dashCoolDown))
-            {
-                AttemptDash();
-            }
-        }
+        //CheckDash();
+        //if (Input.GetKeyDown(KeyCode.LeftShift))
+        //{
+        //    Debug.Log("Dash");
+        //    if (Time.time >= (_lastDash + _dashCoolDown))
+        //    {
+        //        AttemptDash();
+        //    }
+        //}
 
     }
 
@@ -156,16 +155,19 @@ public class Movement : MonoBehaviour
             _animationManager.Play(AnimationType.Idle);
         }
 
-        //Jump
-        if (_isJumpPressed && _isGrounded)
-        {
-            _animationManager.Play(AnimationType.Jump);
-
-            _rb2d.AddForce(new Vector2(0, _jumpForce));
-            _isJumpPressed = false;
-        }
-
         //assign the new velocity to the rigidbody
         _rb2d.velocity = vel;
     }
+    void Jump()
+    {
+        _animationManager.Play(AnimationType.Jump);
+
+        _rb2d.AddForce(new Vector2(0, _jumpForce));
+    }
+
+    void CheckJump()
+    {
+        if (_isGrounded == true) Jump();
+    }
+
 }
