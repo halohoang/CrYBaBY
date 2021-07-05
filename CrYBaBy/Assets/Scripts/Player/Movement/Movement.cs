@@ -9,23 +9,18 @@ public class Movement : MonoBehaviour
     //Movement
     [SerializeField] private float _moveSpeed = 5f;
     [SerializeField] private float _jumpForce;
-    private int _amountJumpedLeft;
-    private bool _canJump;
 
-    ////Dash abilities
-    //bool _isDashing;
-    //[SerializeField] private float _dashTime;
-    //[SerializeField] private float _dashSpeed;
-    //[SerializeField] private float _distanceBetweenImages;
-    //[SerializeField] private float _dashCoolDown; //Dash Cool down
-    //private float _dashTimeLeft;
-    //private float _lastImageXPosition;
-    //private float _lastDash = -100f; //LastTime you dash
+    //Dash abilities
+    bool _isDashing;
+    [SerializeField] private float _dashTime;
+    [SerializeField] private float _dashSpeed;
+    [SerializeField] private float _distanceBetweenImages;
+    [SerializeField] private float _dashCoolDown; //Dash Cool down
+    private float _dashTimeLeft;
+    private float _lastImageXPosition;
+    private float _lastDash = -100f; //LastTime you dash
+    private bool _dashDirection;
 
-    //Landed or not
-    private int _groundMask;
-    private bool _isJumpPressed;
-    private bool _isGrounded;
 
     //Animation
     private SpriteAnimator _spriteAnimator;
@@ -33,10 +28,20 @@ public class Movement : MonoBehaviour
     private float _yAxis;
     private Rigidbody2D _rb2d;
     bool _faceRight = true;
-
-
-
     [SerializeField] private AnimationManager _animationManager;
+
+    //GroundCheck
+    private int _groundMask;
+    private bool _isGrounded;
+
+    //WallCheck
+    public LayerMask WhatIsWall;
+    private bool _isTouchingFront;
+    public Transform FrontCheck;
+    private bool _wallSliding;
+    public float CheckRadius;
+    [SerializeField] private float _wallSlidingSpeed;
+
 
 
     // ------ Functions ------ //
@@ -50,48 +55,83 @@ public class Movement : MonoBehaviour
         _groundMask = 1 << LayerMask.NameToLayer("Ground");
     }
 
+
     //CheckDash
-    //private void CheckDash()
-    //{
-    //    if (_isDashing)
-    //    {
-    //        if (_dashTimeLeft > 0)
-    //        {
-    //            _rb2d.velocity = new Vector2(_dashSpeed, _rb2d.velocity.y);
-    //            _dashTimeLeft -= Time.deltaTime;
-    //            if (Mathf.Abs(transform.position.x - _lastImageXPosition) > _distanceBetweenImages)
-    //            {
-    //                PlayerAfterImagePool.Instance.GetFromPool();
-    //                _lastImageXPosition = transform.position.x;
-    //            }
-    //        }
-    //        if (_dashTimeLeft <= 0)
-    //        {
-    //            _isDashing = false;
-
-    //        }
-    //    }
-    //}
-    //Dash Function
-    //private void AttemptDash()
-    //{
-    //    _isDashing = true;
-    //    _dashTimeLeft = _dashTime;
-    //    _lastDash = Time.time;
-
-    //    PlayerAfterImagePool.Instance.GetFromPool();
-    //    _lastImageXPosition = transform.position.x;
-    //}
-
-    void Update()
+    private void UpdateDash()
     {
-        //Movement left and right 
-        _xAxis = Input.GetAxisRaw("Horizontal");
+        if (_isDashing)
+        {
+            if (_dashTimeLeft > 0)
+            {
+                float _dashDirectionSpeedInversion;
+                if (_dashDirection == false)
+                {
+                    _dashDirectionSpeedInversion = -1;
+                }
+                else
+                {
+                    _dashDirectionSpeedInversion = 1;
+                }
 
-        //Jump
-        if (Input.GetKeyDown(KeyCode.Space)) CheckJump();
+                _rb2d.velocity = new Vector2(_dashSpeed * _dashDirectionSpeedInversion, _rb2d.velocity.y);
+                _dashTimeLeft -= Time.deltaTime;
+                if (Mathf.Abs(transform.position.x - _lastImageXPosition) > _distanceBetweenImages)
+                {
+                    PlayerAfterImagePool.Instance.GetFromPool();
+                    _lastImageXPosition = transform.position.x;
+                }
+            }
+            if (_dashTimeLeft <= 0)
+            {
+                _isDashing = false;
 
-        //Check Left and Right
+            }
+        }
+    }
+    //Dash Function
+    private void AttemptDash()
+    {
+
+
+        PlayerAfterImagePool.Instance.GetFromPool();
+        _lastImageXPosition = transform.position.x;
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            if (Time.time >= (_lastDash + _dashCoolDown))
+            {
+
+                _isDashing = true;
+                _dashTimeLeft = _dashTime;
+                _lastDash = Time.time;
+
+                _dashDirection = _faceRight;
+
+
+            }
+        }
+    }
+
+    //CheckWall
+    void WallCheck()
+    {
+        _isTouchingFront = Physics2D.OverlapCircle(FrontCheck.position, CheckRadius, WhatIsWall);
+    }
+    void WallSlide()
+    {
+        if (_isTouchingFront == true && _isGrounded == false && _xAxis != 0)
+        {
+            _wallSliding = true;
+        }
+        else { _wallSliding = false; }
+
+        if (_wallSliding == true)
+        {
+            _rb2d.velocity = new Vector2(_rb2d.velocity.x, Mathf.Clamp(_rb2d.velocity.y, _wallSlidingSpeed, float.MaxValue));
+        }
+    }
+
+    void FaceMousePosition()
+    {
         var delta = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
         if (delta.x >= 0 && !_faceRight) // Face right
         {
@@ -103,26 +143,23 @@ public class Movement : MonoBehaviour
             transform.localScale = new Vector3(-5, 5, 5);
             _faceRight = false;
         }
-
-        //Dash
-        //CheckDash();
-        //if (Input.GetKeyDown(KeyCode.LeftShift))
-        //{
-        //    Debug.Log("Dash");
-        //    if (Time.time >= (_lastDash + _dashCoolDown))
-        //    {
-        //        AttemptDash();
-        //    }
-        //}
-
     }
-
-    private void FixedUpdate() //Physic movement
+    void Update()
     {
-        GroundCheck();
-        MoveHorizontal();
+        //Movement left and right 
+        _xAxis = Input.GetAxisRaw("Horizontal");
+        //Jump
+        if (Input.GetKeyDown(KeyCode.Space)) CheckJump();
+
+        //Check Left and Right
+        FaceMousePosition();
+
+        AttemptDash();
+
 
     }
+
+
     void GroundCheck()
     {
         //Ground Check
@@ -172,5 +209,16 @@ public class Movement : MonoBehaviour
         _rb2d.AddForce(new Vector2(0, _jumpForce));
     }
 
-
+    private void FixedUpdate() //Physic movement
+    {
+        GroundCheck();
+        if (_isDashing == false)
+        {
+            MoveHorizontal();
+        }
+        else
+        {
+            UpdateDash();
+        }
+    }
 }
