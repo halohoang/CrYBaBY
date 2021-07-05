@@ -63,8 +63,6 @@
     <Compile Include="Assets\Scripts\Player\Movement\Movement.cs" />
     <Compile Include="Assets\Scripts\Player\Combat\Shoot.cs" />
     <Compile Include="Assets\Scripts\SpriteAnimator\SpriteAnimator.cs" />
-    <Compile Include="Assets\Scripts\Player\VisualEffect\DashAfterEffect.cs" />
-    <Compile Include="Assets\Scripts\Player\VisualEffect\PlayerAfterImagePool.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

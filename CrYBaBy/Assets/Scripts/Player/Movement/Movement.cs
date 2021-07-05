@@ -10,17 +10,6 @@ public class Movement : MonoBehaviour
     [SerializeField] private float _moveSpeed = 5f;
     [SerializeField] private float _jumpForce;
 
-    //Dash abilities
-    bool _isDashing;
-    [SerializeField] private float _dashTime;
-    [SerializeField] private float _dashSpeed;
-    [SerializeField] private float _distanceBetweenImages;
-    [SerializeField] private float _dashCoolDown; //Dash Cool down
-    private float _dashTimeLeft;
-    private float _lastImageXPosition;
-    private float _lastDash = -100f; //LastTime you dash
-    private bool _dashDirection;
-
 
     //Animation
     private SpriteAnimator _spriteAnimator;
@@ -51,64 +40,7 @@ public class Movement : MonoBehaviour
     {
         _rb2d = GetComponent<Rigidbody2D>();
         _spriteAnimator = GetComponent<SpriteAnimator>();
-        //_animator = GetComponent<Animator>();
         _groundMask = 1 << LayerMask.NameToLayer("Ground");
-    }
-
-
-    //CheckDash
-    private void UpdateDash()
-    {
-        if (_isDashing)
-        {
-            if (_dashTimeLeft > 0)
-            {
-                float _dashDirectionSpeedInversion;
-                if (_dashDirection == false)
-                {
-                    _dashDirectionSpeedInversion = -1;
-                }
-                else
-                {
-                    _dashDirectionSpeedInversion = 1;
-                }
-
-                _rb2d.velocity = new Vector2(_dashSpeed * _dashDirectionSpeedInversion, _rb2d.velocity.y);
-                _dashTimeLeft -= Time.deltaTime;
-                if (Mathf.Abs(transform.position.x - _lastImageXPosition) > _distanceBetweenImages)
-                {
-                    PlayerAfterImagePool.Instance.GetFromPool();
-                    _lastImageXPosition = transform.position.x;
-                }
-            }
-            if (_dashTimeLeft <= 0)
-            {
-                _isDashing = false;
-
-            }
-        }
-    }
-    //Dash Function
-    private void AttemptDash()
-    {
-
-
-        PlayerAfterImagePool.Instance.GetFromPool();
-        _lastImageXPosition = transform.position.x;
-        if (Input.GetKeyDown(KeyCode.LeftShift))
-        {
-            if (Time.time >= (_lastDash + _dashCoolDown))
-            {
-
-                _isDashing = true;
-                _dashTimeLeft = _dashTime;
-                _lastDash = Time.time;
-
-                _dashDirection = _faceRight;
-
-
-            }
-        }
     }
 
     //CheckWall
@@ -153,9 +85,7 @@ public class Movement : MonoBehaviour
 
         //Check Left and Right
         FaceMousePosition();
-
-        AttemptDash();
-
+        MoveHorizontal();
 
     }
 
@@ -212,13 +142,5 @@ public class Movement : MonoBehaviour
     private void FixedUpdate() //Physic movement
     {
         GroundCheck();
-        if (_isDashing == false)
-        {
-            MoveHorizontal();
-        }
-        else
-        {
-            UpdateDash();
-        }
     }
 }
