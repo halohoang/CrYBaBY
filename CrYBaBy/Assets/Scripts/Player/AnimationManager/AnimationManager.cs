@@ -10,7 +10,8 @@ public class AnimationManager : MonoBehaviour
     private SpriteAnimator _spriteAnimator;
     [SerializeField] private SpriteAnimation _anIdle;
     [SerializeField] private SpriteAnimation _anRun;
-    [SerializeField] private SpriteAnimation _anJump;
+    [SerializeField] private SpriteAnimation _anFall;
+    [SerializeField] private SpriteAnimation _anLand;
     [SerializeField] private SpriteAnimation _anMelee;
 
 
@@ -32,9 +33,13 @@ public class AnimationManager : MonoBehaviour
             _spriteAnimator.Play(_anRun, false);
 
         }
-        if (animationType == AnimationType.Jump)
+        if (animationType == AnimationType.Fall)
+		{
+            _spriteAnimator.Play(_anFall, false);
+		}
+        if (animationType == AnimationType.Land)
         {
-            _spriteAnimator.Play(_anJump, false);
+            _spriteAnimator.Play(_anLand, false);
 
         }
         if (animationType == AnimationType.Melee)
@@ -52,6 +57,7 @@ public enum AnimationType
 {
     Idle,
     Run,
-    Jump,
+    Land,
+    Fall,
     Melee
 }

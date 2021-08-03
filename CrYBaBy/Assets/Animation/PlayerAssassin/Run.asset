@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d05716d329922cf4abb0b6513364aece, type: 3}
+  m_Name: Run
+  m_EditorClassIdentifier: 
+  loop: 0
+  speedMultiplyer: 2
+  frames:
+  - Sprite: {fileID: 42924150760849096, guid: 8321288d73a90d54092ac5c7b63508b3, type: 3}
+    Duration: 0.15
+  - Sprite: {fileID: 5382046916554409225, guid: 8321288d73a90d54092ac5c7b63508b3, type: 3}
+    Duration: 0.15
+  - Sprite: {fileID: -4227271040971533988, guid: 8321288d73a90d54092ac5c7b63508b3, type: 3}
+    Duration: 0.15
+  - Sprite: {fileID: -2756992721130952979, guid: 8321288d73a90d54092ac5c7b63508b3, type: 3}
+    Duration: 0.15
+  - Sprite: {fileID: 4029046840823632946, guid: 8321288d73a90d54092ac5c7b63508b3, type: 3}
+    Duration: 0.15
+  - Sprite: {fileID: 3755962544231412175, guid: 8321288d73a90d54092ac5c7b63508b3, type: 3}
+    Duration: 0.15
+  - Sprite: {fileID: -5171821485666756092, guid: 8321288d73a90d54092ac5c7b63508b3, type: 3}
+    Duration: 0.15
+  - Sprite: {fileID: 4697511204225477803, guid: 8321288d73a90d54092ac5c7b63508b3, type: 3}
+    Duration: 0.15
+  fileToLoadFrom: {fileID: 42924150760849096, guid: 8321288d73a90d54092ac5c7b63508b3, type: 3}
+  defaultTime: 0.15
+  loadFromLastToFirst: 0

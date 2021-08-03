@@ -43,39 +43,39 @@ public class Movement : MonoBehaviour
         _groundMask = 1 << LayerMask.NameToLayer("Ground");
     }
 
-    //CheckWall
-    void WallCheck()
-    {
-        _isTouchingFront = Physics2D.OverlapCircle(FrontCheck.position, CheckRadius, WhatIsWall);
-    }
-    void WallSlide()
-    {
-        if (_isTouchingFront == true && _isGrounded == false && _xAxis != 0)
-        {
-            _wallSliding = true;
-        }
-        else { _wallSliding = false; }
+    ////CheckWall
+    //void WallCheck()
+    //{
+    //    _isTouchingFront = Physics2D.OverlapCircle(FrontCheck.position, CheckRadius, WhatIsWall);
+    //}
+    //void WallSlide()
+    //{
+    //    if (_isTouchingFront == true && _isGrounded == false && _xAxis != 0)
+    //    {
+    //        _wallSliding = true;
+    //    }
+    //    else { _wallSliding = false; }
 
-        if (_wallSliding == true)
-        {
-            _rb2d.velocity = new Vector2(_rb2d.velocity.x, Mathf.Clamp(_rb2d.velocity.y, _wallSlidingSpeed, float.MaxValue));
-        }
-    }
+    //    if (_wallSliding == true)
+    //    {
+    //        _rb2d.velocity = new Vector2(_rb2d.velocity.x, Mathf.Clamp(_rb2d.velocity.y, _wallSlidingSpeed, float.MaxValue));
+    //    }
+    //}
 
-    void FaceMousePosition()
-    {
-        var delta = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
-        if (delta.x >= 0 && !_faceRight) // Face right
-        {
-            transform.localScale = new Vector3(5, 5, 5);
-            _faceRight = true;
-        }
-        if (delta.x < 0 && _faceRight) // Face left
-        {
-            transform.localScale = new Vector3(-5, 5, 5);
-            _faceRight = false;
-        }
-    }
+    //void FaceMousePosition()
+    //{
+    //    var delta = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+    //    if (delta.x >= 0 && !_faceRight) // Face right
+    //    {
+    //        transform.localScale = new Vector3(5, 5, 5);
+    //        _faceRight = true;
+    //    }
+    //    if (delta.x < 0 && _faceRight) // Face left
+    //    {
+    //        transform.localScale = new Vector3(-5, 5, 5);
+    //        _faceRight = false;
+    //    }
+    //}
     void Update()
     {
         //Movement left and right 
@@ -84,7 +84,7 @@ public class Movement : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space)) CheckJump();
 
         //Check Left and Right
-        FaceMousePosition();
+        //FaceMousePosition();
         MoveHorizontal();
 
     }
@@ -101,6 +101,7 @@ public class Movement : MonoBehaviour
         }
         else
         {
+            _animationManager.Play(AnimationType.Fall);
             _isGrounded = false;
         }
     }
@@ -134,7 +135,7 @@ public class Movement : MonoBehaviour
     }
     void Jump()
     {
-        _animationManager.Play(AnimationType.Jump);
+        //_animationManager.Play(AnimationType.Jump);
 
         _rb2d.AddForce(new Vector2(0, _jumpForce));
     }
